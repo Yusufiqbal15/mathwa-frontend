@@ -1,6 +1,6 @@
 import React from 'react'
 import { HeroSection, Container, Card, Grid, Section } from '../components/Common'
-import { Building2, ExternalLink, Handshake } from 'lucide-react'
+import { Building2, ExternalLink, Hand } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const Partnership = () => {
@@ -69,7 +69,7 @@ const Partnership = () => {
           </Grid>
           <div className="mt-16 p-8 rounded-2xl border border-gray-200 bg-gray-50">
             <div className="flex items-center gap-3 mb-6">
-              <Handshake size={32} style={{ color: '#0E4B33' }} />
+              <Hand size={32} style={{ color: '#0E4B33' }} />
               <h2 className="text-xl font-bold" style={{ color: '#0E4B33' }}>{t.opportunities}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
