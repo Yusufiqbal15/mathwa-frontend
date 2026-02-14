@@ -181,7 +181,7 @@ const Navbar = ({ language, onLanguageChange }) => {
                 <Link
                   key={key}
                   to={to}
-                  className="flex items-center gap-1 px-2 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-xs xl:text-sm whitespace-nowrap"
+                  className="flex items-center gap-1 px-2 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-lg xl:text-sm whitespace-nowrap"
                   style={{ color: "#0E4B33" }}
                 >
                   <Icon size={16} style={{ color: "#C89B3C", flexShrink: 0 }} />
@@ -194,7 +194,7 @@ const Navbar = ({ language, onLanguageChange }) => {
                 <button
                   onClick={() => setContributeOpen(!contributeOpen)}
                   onBlur={() => setTimeout(() => setContributeOpen(false), 150)}
-                  className="flex items-center gap-1 px-2 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-xs xl:text-sm whitespace-nowrap"
+                  className="flex items-center gap-1 px-2 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-lg xl:text-sm whitespace-nowrap"
                   style={{ color: "#0E4B33" }}
                 >
                   <Coins size={16} style={{ color: "#C89B3C", flexShrink: 0 }} />
