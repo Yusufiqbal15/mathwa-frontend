@@ -165,26 +165,26 @@ const Navbar = ({ language, onLanguageChange }) => {
         }}
       >
         <div className="container mx-auto px-6">
-          <div className="flex justify-between items-center h-20">
-            <Link to="/" className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex justify-between items-center h-20 gap-4">
+            {/* Logo - left */}
+            <Link to="/" className="flex items-center gap-2 flex-shrink-0">
               <img
                 src="/public/Jamiyah 2.png"
                 alt="Mathwaa Logo"
-                className="h-14 w-auto"
+                className="h-12 md:h-14 w-auto object-contain"
               />
-             
             </Link>
 
-            {/* Desktop: all nav options + Contribute with us dropdown */}
-            <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-wrap justify-center flex-1 px-4">
+            {/* Desktop: nav links + Contribute with us dropdown - center */}
+            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-1 justify-center px-2 max-w-4xl">
               {NAV_ITEMS.map(({ to, icon: Icon, key }) => (
                 <Link
                   key={key}
                   to={to}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-sm xl:text-base whitespace-nowrap"
+                  className="flex items-center gap-1 px-2 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-xs xl:text-sm whitespace-nowrap"
                   style={{ color: "#0E4B33" }}
                 >
-                  <Icon size={18} style={{ color: "#C89B3C", flexShrink: 0 }} />
+                  <Icon size={16} style={{ color: "#C89B3C", flexShrink: 0 }} />
                   <span>{t[key]}</span>
                 </Link>
               ))}
@@ -194,12 +194,12 @@ const Navbar = ({ language, onLanguageChange }) => {
                 <button
                   onClick={() => setContributeOpen(!contributeOpen)}
                   onBlur={() => setTimeout(() => setContributeOpen(false), 150)}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-sm xl:text-base whitespace-nowrap"
+                  className="flex items-center gap-1 px-2 py-2 rounded-lg font-medium transition-colors hover:opacity-80 font-body text-xs xl:text-sm whitespace-nowrap"
                   style={{ color: "#0E4B33" }}
                 >
-                  <Coins size={18} style={{ color: "#C89B3C", flexShrink: 0 }} />
+                  <Coins size={16} style={{ color: "#C89B3C", flexShrink: 0 }} />
                   <span>{t.contribute_with_us}</span>
-                  <ChevronDown size={16} className={contributeOpen ? "rotate-180" : ""} />
+                  <ChevronDown size={14} className={contributeOpen ? "rotate-180" : ""} />
                 </button>
                 {contributeOpen && (
                   <div
@@ -221,17 +221,17 @@ const Navbar = ({ language, onLanguageChange }) => {
                   </div>
                 )}
               </div>
-              </div>
+            </div>
 
-{/* Contribute button - desktop */}
-<div className="hidden lg:flex items-center flex-shrink-0">
-  <Link
-    to="/donate"
-    className="px-5 py-2.5 rounded-full font-semibold transition-all shadow-md whitespace-nowrap"
-    style={{ backgroundColor: "#0E4B33", color: "#FFFFFF" }}
-  >
-    {t.donate}
-  </Link>
+            {/* Donate now button - right side desktop */}
+            <div className="hidden lg:flex items-center flex-shrink-0 pl-4">
+              <Link
+                to="/donate"
+                className="px-5 py-2.5 rounded-full font-semibold transition-all shadow-md hover:opacity-90 whitespace-nowrap text-center text-sm"
+                style={{ backgroundColor: "#0E4B33", color: "#FFFFFF" }}
+              >
+                {t.donate}
+              </Link>
             </div>
 
             {/* Mobile: hamburger opens full menu */}
@@ -300,6 +300,16 @@ const Navbar = ({ language, onLanguageChange }) => {
                   </div>
                 )}
               </div>
+              {/* Donate now - mobile */}
+              <Link
+                to="/donate"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center gap-2 w-full mt-3 px-4 py-3 rounded-full font-semibold"
+                style={{ backgroundColor: "#0E4B33", color: "#FFFFFF" }}
+              >
+                <Coins size={20} />
+                {t.donate}
+              </Link>
             </div>
           )}
         </div>
