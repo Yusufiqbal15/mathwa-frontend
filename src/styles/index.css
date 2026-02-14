@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply scroll-smooth;
+}
+
+/* Official fonts: Headers & Logos = Noto Kufi Arabic; General text = Noto Naskh Arabic / Merriweather */
+body {
+  font-family: 'Noto Naskh Arabic', 'Merriweather', Georgia, serif;
+  color: #000000;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Noto Kufi Arabic', 'Merriweather', Georgia, serif;
+}
+
+/* Arabic: Noto Naskh for body when RTL */
+html[lang="ar"] body,
+html[dir="rtl"] body {
+  font-family: 'Noto Naskh Arabic', 'Tajawal', 'Simplified Arabic', Arial, sans-serif;
+}
+
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="ltr"] body {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Custom Classes */
+.btn-primary {
+  @apply px-6 py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all duration-300 font-semibold;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 bg-secondary text-white rounded-lg hover:bg-opacity-90 transition-all duration-300 font-semibold;
+}
+
+.btn-accent {
+  @apply px-6 py-3 bg-accent text-white rounded-lg hover:bg-opacity-90 transition-all duration-300 font-semibold;
+}
+
+.btn-outline {
+  @apply px-6 py-3 border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all duration-300 font-semibold;
+}
+
+.card {
+  @apply bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6;
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl font-bold mb-4;
+  color: #0E4B33;
+  font-family: 'Noto Kufi Arabic', 'Merriweather', Georgia, serif;
+}
+
+.section-subtitle {
+  @apply text-lg mb-8;
+  color: #000000;
+}
+
+.container-custom {
+  @apply max-w-7xl mx-auto px-4 md:px-6;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #0E4B33 0%, #0a3525 50%, #C89B3C 100%);
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.8s ease-out;
+}
