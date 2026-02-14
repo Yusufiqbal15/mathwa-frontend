@@ -26,6 +26,15 @@ import Partnership from './pages/Partnership'
 import AnnualReports from './pages/AnnualReports'
 import NotFound from './pages/NotFound'
 import Home from './pages/Home'
+import OrganizationMembers from './pages/OrganizationMembers'
+import BoardEstablishmentDecision from './pages/BoardEstablishmentDecision'
+import OrganizationCertificate from './pages/OrganizationCertificate'
+import BasicStandards from './pages/BasicStandards'
+import SponsorRegistration from './pages/SponsorRegistration'
+import VolunteerOpportunityRegister from './pages/VolunteerOpportunityRegister'
+import ServiceRequest from './pages/ServiceRequest'
+import AvailableServices from './pages/AvailableServices'
+import Governance from './pages/Governance'
 
 function App() {
   const { i18n } = useTranslation()
@@ -68,6 +77,15 @@ function App() {
             <Route path="/beneficiary-services" element={<BeneficiaryServices />} />
             <Route path="/membership" element={<Membership />} />
             <Route path="/board-members" element={<BoardMembers />} />
+            <Route path="/organization-members" element={<OrganizationMembers />} />
+            <Route path="/board-establishment-decision" element={<BoardEstablishmentDecision />} />
+            <Route path="/organization-certificate" element={<OrganizationCertificate />} />
+            <Route path="/basic-standards" element={<BasicStandards />} />
+            <Route path="/sponsor-register" element={<SponsorRegistration />} />
+            <Route path="/volunteer-opportunity-register" element={<VolunteerOpportunityRegister />} />
+            <Route path="/service-request" element={<ServiceRequest />} />
+            <Route path="/available-services" element={<AvailableServices />} />
+            <Route path="/governance" element={<Governance />} />
             <Route path="/photo-albums" element={<PhotoAlbums />} />
             <Route path="/video-albums" element={<VideoAlbums />} />
             <Route path="/partnership" element={<Partnership />} />

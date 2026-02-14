@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { HeroSection, SectionTitle, Container, Card, Grid, Section, Button } from '../components/Common'
-import { Heart, Check } from 'lucide-react'
+import { Heart, Check, DollarSign, ExternalLink } from 'lucide-react'
 
 const Donation = () => {
   const [selectedAmount, setSelectedAmount] = useState(100)
@@ -9,8 +10,13 @@ const Donation = () => {
 
   const translations = {
     en: {
-      title: 'Make a Donation',
-      subtitle: 'Your donation makes a real difference',
+      title: 'Donation',
+      subtitle: 'Contribute to supporting the charitable association\'s work',
+      ways_title: 'Ways to Donate',
+      ways_desc: 'You can donate through the Salla e-platform.',
+      donate_via_salla: 'Donate via Salla',
+      or_browse: 'Or browse available donation opportunities',
+      home: 'Home',
       donation_amount: 'Donation Amount (SAR)',
       custom_amount: 'Custom Amount',
       quick_donate: 'Quick Donate Amounts',
@@ -18,6 +24,8 @@ const Donation = () => {
       credit_card: 'Credit Card',
       bank_transfer: 'Bank Transfer',
       donate_button: 'Proceed with Donation',
+      donate_now_section: 'Donate Now',
+      donate_now_sub: 'Your donation contributes to the continuity of our community services',
       donation_impact: 'Your Impact',
       impact_meal: 'Provides meal support',
       impact_family: 'Supports a family',
@@ -27,8 +35,13 @@ const Donation = () => {
       one_time: 'One Time',
     },
     ar: {
-      title: 'قدم تبرعاً',
-      subtitle: 'تبرعك يحدث فرقاً حقيقياً',
+      title: 'التبرع',
+      subtitle: 'ساهم في دعم أعمال الجمعية الخيرية',
+      ways_title: 'طرق التبرع',
+      ways_desc: 'يمكنك التبرع من خلال منصة سلة الإلكترونية',
+      donate_via_salla: 'تبرع عبر سلة',
+      or_browse: 'أو تصفح فرص التبرع المتاحة',
+      home: 'الرئيسية',
       donation_amount: 'مبلغ التبرع (ريال)',
       custom_amount: 'مبلغ مخصص',
       quick_donate: 'مبالغ التبرع السريعة',
@@ -41,6 +54,8 @@ const Donation = () => {
       impact_family: 'يدعم عائلة',
       impact_program: 'يمول برنامج مجتمعي',
       impact_equipment: 'يوفر معدات أساسية',
+      donate_now_section: 'تبرع الآن',
+      donate_now_sub: 'تبرعك يساهم في استمرار خدماتنا للمجتمع',
       monthly: 'شهري',
       one_time: 'مرة واحدة',
     }
@@ -57,9 +72,40 @@ const Donation = () => {
         title={t.title}
         subtitle={t.subtitle}
       />
+      <div className="bg-gray-100 py-2">
+        <Container>
+          <nav className="text-sm text-gray-600">
+            <Link to="/" className="hover:text-[#0E4B33]">{t.home}</Link>
+            <span className="mx-2">/</span>
+            <span className="text-[#0E4B33] font-medium">{t.title}</span>
+          </nav>
+        </Container>
+      </div>
 
       <Section>
         <Container>
+          <SectionTitle title={t.donate_now_section} subtitle={t.donate_now_sub} />
+          <div className="max-w-xl mx-auto mb-12">
+            <Card className="text-center p-8">
+              <DollarSign size={56} className="mx-auto mb-4" style={{ color: '#0E4B33' }} />
+              <h3 className="text-xl font-bold mb-2" style={{ color: '#0E4B33' }}>{t.ways_title}</h3>
+              <p className="text-gray-600 mb-6">{t.ways_desc}</p>
+              <a
+                href="https://salla.sa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90"
+                style={{ backgroundColor: '#0E4B33' }}
+              >
+                {t.donate_via_salla}
+                <ExternalLink size={18} />
+              </a>
+              <p className="text-sm text-gray-500 mt-4">
+                <Link to="/donate" className="hover:underline" style={{ color: '#0E4B33' }}>{t.or_browse}</Link>
+              </p>
+            </Card>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Donation Form */}
             <div className="lg:col-span-2">

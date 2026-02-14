@@ -9,22 +9,30 @@ const News = () => {
 
   const translations = {
     en: {
-      title: 'Latest News',
-      subtitle: 'Stay updated with our latest news and announcements',
-      search_placeholder: 'Search news...',
+      title: 'News and Events',
+      subtitle: 'Follow the latest news, events, and activities',
+      search_placeholder: 'Search in news...',
       all: 'All',
+      announcement: 'Announcement',
+      news: 'News',
       announcements: 'Announcements',
       events: 'Events',
       updates: 'Updates',
+      read_more: 'Read More',
+      home: 'Home',
     },
     ar: {
-      title: 'آخر الأخبار',
-      subtitle: 'ابق على اطلاع مع آخر أخبارنا والإعلانات',
-      search_placeholder: 'ابحث عن الأخبار...',
-      all: 'الجميع',
+      title: 'الأخبار والفعاليات',
+      subtitle: 'تابع آخر الأخبار والفعاليات والأنشطة',
+      search_placeholder: 'البحث في الأخبار.',
+      all: 'الكل',
+      announcement: 'إعلان',
+      news: 'أخبار',
       announcements: 'الإعلانات',
       events: 'الأحداث',
       updates: 'التحديثات',
+      read_more: 'اقرأ المزيد',
+      home: 'الرئيسية',
     }
   }
 
@@ -32,12 +40,12 @@ const News = () => {
   const t = translations[language]
 
   const newsItems = [
-    { id: 1, title: 'Important Announcement', category: 'announcements', date: '2024-02-14', excerpt: 'We are pleased to announce a new initiative...' },
-    { id: 2, title: 'Upcoming Volunteer Event', category: 'events', date: '2024-02-13', excerpt: 'Join us for our upcoming volunteer event...' },
-    { id: 3, title: 'Service Expansion Update', category: 'updates', date: '2024-02-12', excerpt: 'We are expanding our services to new areas...' },
-    { id: 4, title: 'New Partnership', category: 'announcements', date: '2024-02-11', excerpt: 'We are partnering with leading organizations...' },
-    { id: 5, title: 'Community Support Program', category: 'events', date: '2024-02-10', excerpt: 'New community support program launched...' },
-    { id: 6, title: 'Fundraising Campaign', category: 'updates', date: '2024-02-09', excerpt: 'Our latest fundraising campaign results...' },
+    { id: 1, title: 'Important Announcement', category: 'announcement', date: '2024-02-14', excerpt: 'We are pleased to announce a new initiative...' },
+    { id: 2, title: 'Upcoming Volunteer Event', category: 'news', date: '2024-02-13', excerpt: 'Join us for our upcoming volunteer event...' },
+    { id: 3, title: 'Service Expansion Update', category: 'news', date: '2024-02-12', excerpt: 'We are expanding our services to new areas...' },
+    { id: 4, title: 'New Partnership', category: 'announcement', date: '2024-02-11', excerpt: 'We are partnering with leading organizations...' },
+    { id: 5, title: 'Community Support Program', category: 'news', date: '2024-02-10', excerpt: 'New community support program launched...' },
+    { id: 6, title: 'Fundraising Campaign', category: 'news', date: '2024-02-09', excerpt: 'Our latest fundraising campaign results...' },
   ]
 
   const filteredNews = newsItems.filter(news => {
@@ -52,6 +60,15 @@ const News = () => {
         title={t.title}
         subtitle={t.subtitle}
       />
+      <div className="bg-gray-100 py-2">
+        <Container>
+          <nav className="text-sm text-gray-600">
+            <Link to="/" className="hover:text-[#0E4B33]">{t.home}</Link>
+            <span className="mx-2">/</span>
+            <span className="text-[#0E4B33] font-medium">{t.title}</span>
+          </nav>
+        </Container>
+      </div>
 
       <Section>
         <Container>
@@ -73,7 +90,7 @@ const News = () => {
 
             {/* Categories */}
             <div className="flex gap-3 mt-6 flex-wrap">
-              {['all', 'announcements', 'events', 'updates'].map(cat => (
+              {['all', 'announcement', 'news'].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
@@ -99,8 +116,8 @@ const News = () => {
                     <div className="text-sm text-gray-500 mb-2">{news.date}</div>
                     <h3 className="text-xl font-bold text-primary mb-2 flex-grow">{news.title}</h3>
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">{news.excerpt}</p>
-                    <div className="flex items-center text-primary font-bold hover:text-secondary transition-all">
-                      Read More <ArrowRight size={16} className="ml-2" />
+                    <div className="flex items-center font-bold transition-all" style={{ color: '#0E4B33' }}>
+                      {t.read_more} <ArrowRight size={16} className="ml-2" />
                     </div>
                   </Card>
                 </Link>

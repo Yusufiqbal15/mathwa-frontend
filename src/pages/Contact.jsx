@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { HeroSection, SectionTitle, Container, Card, Grid, Section, Button } from '../components/Common'
-import { Phone, Mail, MapPin, Send, Clock } from 'lucide-react'
-import { contactAPI } from '../services/api'
+import { HeroSection, Container, Card, Grid, Section, Button } from '../components/Common'
+import { Phone, Mail, MapPin, Send } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Contact = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('contact')
+  const lang = localStorage.getItem('language') || 'en'
+  const breadcrumb = { en: { home: 'Home', current: 'Contact Us' }, ar: { home: 'الرئيسية', current: 'اتصل بنا' } }[lang]
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,21 +37,53 @@ const Contact = () => {
   return (
     <>
       <HeroSection 
-        title={t.title}
-        subtitle={t.subtitle}
+        title={t('contact_title')}
+        subtitle={t('contact_subtitle')}
       />
-
+      <div className="bg-gray-100 py-2">
+        <Container>
+          <nav className="text-sm text-gray-600">
+            <Link to="/" className="hover:text-[#0E4B33]">{breadcrumb.home}</Link>
+            <span className="mx-2">/</span>
+            <span className="text-[#0E4B33] font-medium">{breadcrumb.current}</span>
+          </nav>
+        </Container>
+      </div>
       <Section>
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Contact cards - Email, Phone, Address */}
+            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <Card className="text-center p-6 border border-gray-200">
+                <div className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'rgba(14,75,51,0.1)' }}>
+                  <Mail size={28} style={{ color: '#0E4B33' }} />
+                </div>
+                <h4 className="font-bold mb-1" style={{ color: '#0E4B33' }}>{t('email')}</h4>
+                <p className="text-gray-600">{t('email_value')}</p>
+              </Card>
+              <Card className="text-center p-6 border border-gray-200">
+                <div className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'rgba(14,75,51,0.1)' }}>
+                  <Phone size={28} style={{ color: '#0E4B33' }} />
+                </div>
+                <h4 className="font-bold mb-1" style={{ color: '#0E4B33' }}>{t('phone')}</h4>
+                <p className="text-gray-600">{t('phone_value')}</p>
+              </Card>
+              <Card className="text-center p-6 border border-gray-200">
+                <div className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'rgba(14,75,51,0.1)' }}>
+                  <MapPin size={28} style={{ color: '#0E4B33' }} />
+                </div>
+                <h4 className="font-bold mb-1" style={{ color: '#0E4B33' }}>{t('address')}</h4>
+                <p className="text-gray-600">{t('address_value')}</p>
+              </Card>
+            </div>
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <Card className="!p-8">
-                <h2 className="text-2xl font-bold text-primary mb-6">{t.get_in_touch}</h2>
+                <h2 className="text-2xl font-bold mb-6" style={{ color: '#0E4B33' }}>{t('form_title')}</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-2">{t.your_name}</label>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">{t('your_name')}</label>
                       <input
                         type="text"
                         name="name"
@@ -60,7 +94,7 @@ const Contact = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-2">{t.your_email}</label>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">{t('your_email')}</label>
                       <input
                         type="email"
                         name="email"
@@ -74,7 +108,7 @@ const Contact = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-2">{t.your_phone}</label>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">{t('your_phone')}</label>
                       <input
                         type="tel"
                         name="phone"
@@ -84,7 +118,7 @@ const Contact = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-bold text-gray-700 mb-2">{t.subject}</label>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">{t('subject')}</label>
                       <input
                         type="text"
                         name="subject"
@@ -97,7 +131,7 @@ const Contact = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">{t.message}</label>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">{t('message')}</label>
                     <textarea
                       name="message"
                       value={formData.message}
@@ -110,7 +144,7 @@ const Contact = () => {
 
                   <Button size="lg" className="w-full gap-2">
                     <Send size={20} />
-                    {t.send_message}
+                    {t('send_message')}
                   </Button>
                 </form>
               </Card>
@@ -119,37 +153,34 @@ const Contact = () => {
             {/* Contact Information */}
             <div>
               <Card className="mb-6">
-                <h3 className="text-xl font-bold text-primary mb-6">{t.contact_info}</h3>
+                <h3 className="text-xl font-bold mb-6" style={{ color: '#0E4B33' }}>{t('contact_info')}</h3>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <Phone className="text-secondary mt-1 flex-shrink-0" size={24} />
+                    <Phone className="mt-1 flex-shrink-0" size={24} style={{ color: '#0E4B33' }} />
                     <div>
-                      <h4 className="font-bold text-gray-800 mb-1">{t.phone_label}</h4>
-                      <p className="text-gray-600">+966 XX-XXXX-XXXX</p>
+                      <h4 className="font-bold text-gray-800 mb-1">{t('phone')}</h4>
+                      <p className="text-gray-600">{t('phone_value')}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <Mail className="text-secondary mt-1 flex-shrink-0" size={24} />
+                    <Mail className="mt-1 flex-shrink-0" size={24} style={{ color: '#0E4B33' }} />
                     <div>
-                      <h4 className="font-bold text-gray-800 mb-1">{t.email_label}</h4>
-                      <p className="text-gray-600">info@mathwa.org</p>
+                      <h4 className="font-bold text-gray-800 mb-1">{t('email')}</h4>
+                      <p className="text-gray-600">{t('email_value')}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <MapPin className="text-secondary mt-1 flex-shrink-0" size={24} />
+                    <MapPin className="mt-1 flex-shrink-0" size={24} style={{ color: '#0E4B33' }} />
                     <div>
-                      <h4 className="font-bold text-gray-800 mb-1">{t.address_label}</h4>
-                      <p className="text-gray-600">Riyadh, Saudi Arabia</p>
+                      <h4 className="font-bold text-gray-800 mb-1">{t('address')}</h4>
+                      <p className="text-gray-600">{t('address_value')}</p>
                     </div>
                   </div>
-                </div>
-              </Card>
-
-              <Card>
-                <h3 className="text-xl font-bold text-primary mb-4">{t.working_hours}</h3>
-                <div className="space-y-2 text-gray-600">
-                  <p>{t.office_hours}</p>
-                  <p className="text-red-500 font-semibold">{t.friday}</p>
+                  <div className="pt-4 border-t border-gray-200">
+                    <h4 className="font-bold text-gray-800 mb-1">{t('working_hours')}</h4>
+                    <p className="text-gray-600 text-sm">{t('working_hours_value')}</p>
+                    <p className="text-red-500 font-semibold text-sm mt-1">{t('friday')}</p>
+                  </div>
                 </div>
               </Card>
             </div>

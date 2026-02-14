@@ -1,13 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Heart, Users, BookOpen, Award, Zap, Globe } from 'lucide-react'
-import { HeroSection, SectionTitle, Container, Card, Button, Grid, Section, Badge } from '../components/Common'
-import { newsAPI, statisticsAPI, partnersAPI, popupsAPI } from '../services/api'
+import { SectionTitle, Container, Card, Button, Grid, Section, Badge } from '../components/Common'
+import { newsAPI, statisticsAPI, partnersAPI } from '../services/api'
+
+const SLIDER_INTERVAL_MS = 3000
+const SLIDE_COUNT = 5
 
 const Home = () => {
   const { t, i18n } = useTranslation()
   const isArabic = i18n.language === 'ar'
+
+  const [activeSlide, setActiveSlide] = useState(0)
+
+  const goToSlide = useCallback((index) => {
+    setActiveSlide((i) => (typeof index === 'number' ? (index + SLIDE_COUNT) % SLIDE_COUNT : (i + 1) % SLIDE_COUNT))
+  }, [])
+
+  useEffect(() => {
+    const timer = setInterval(() => goToSlide(activeSlide + 1), SLIDER_INTERVAL_MS)
+    return () => clearInterval(timer)
+  }, [activeSlide, goToSlide])
+
+  const slides = Array.from({ length: SLIDE_COUNT }, (_, i) => i + 1).map((n) => ({
+    title: t(`home.slider_title_${n}`),
+    subtitle: t(`home.slider_subtitle_${n}`),
+    desc: t(`home.slider_desc_${n}`),
+  }))
 
   const [stats, setStats] = useState({
     beneficiaries: 1250,
@@ -89,30 +110,106 @@ const Home = () => {
 
   return (
     <>
-      {/* Hero Section */}
-      <HeroSection 
-        title={t('home.slider_title_1')}
-        subtitle={t('home.slider_subtitle_1')}
-      />
+      {/* Hero Slider - content right side, slides move to right (exit left, enter from right) */}
+      <section className="relative h-[85vh] min-h-[200px] max-h-[400px] overflow-hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          {slides.map((slide, index) =>
+            index === activeSlide ? (
+              <motion.div
+                key={index}
+                initial={{ x: '100%', opacity: 0.8 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: '-100%', opacity: 0.8 }}
+                transition={{ duration: 0, ease: 'easeInOut' }}
+                className="absolute inset-0 flex items-center justify-end pr-8 md:pr-16 lg:pr-24 text-center px-6"
+                style={{
+                  background: 'linear-gradient(90deg, #0E4B33 0%, #0a3525 35%, #1a4d38 60%, #2d3d2e 85%,rgb(74, 72, 40) 100%)',
+                }}
+              >
+                <div className="relative z-10 max-w-2xl ml-auto">
+                  <motion.h1
+                    key={`title-${index}`}
+                    initial={{ opacity: 0, x: 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.15, duration: 0.4 }}
+                    className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-heading drop-shadow-sm"
+                  >
+                    {slide.title}
+                  </motion.h1>
+                  <motion.p
+                    key={`subtitle-${index}`}
+                    initial={{ opacity: 0, x: 32 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.28, duration: 0.4 }}
+                    className="text-xl md:text-2xl lg:text-3xl text-white mb-3 font-body"
+                  >
+                    {slide.subtitle}
+                  </motion.p>
+                  <motion.p
+                    key={`desc-${index}`}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4, duration: 0.4 }}
+                    className="text-base md:text-lg text-white/90 max-w-xl ml-auto font-body"
+                  >
+                    {slide.desc}
+                  </motion.p>
+                </div>
+              </motion.div>
+            ) : null
+          )}
+        </AnimatePresence>
 
-      {/* Welcome Section */}
-      <Section>
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <SectionTitle title={t('home.about_section_title')} centered={false} />
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                {t('home.about_section_text')}
-              </p>
-              <Link to="/about" className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                {t('common.learn_more')} <ArrowRight size={20} />
-              </Link>
-            </div>
-            <div className="w-full h-96 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg"></div>
-          </div>
-        </Container>
-      </Section>
+        {/* Line indicators - one per slide, active line fills over 2s */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2 items-center">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setActiveSlide(index)}
+              className="flex flex-col items-center gap-1 group"
+              aria-label={`Slide ${index + 1}`}
+            >
+              <div
+                className="h-1.5 w-14 md:w-20 rounded-full overflow-hidden bg-white/25 flex"
+                style={{ minWidth: '3.5rem' }}
+              >
+                {index === activeSlide ? (
+                  <motion.div
+                    key={activeSlide}
+                    className="h-full w-full rounded-full bg-white flex-shrink-0"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: SLIDER_INTERVAL_MS / 1000, ease: 'linear' }}
+                    style={{ transformOrigin: 'left' }}
+                  />
+                ) : null}
+              </div>
+              <span className="text-[10px] text-white/70 group-hover:text-white">
+                {index + 1}
+              </span>
+            </button>
+          ))}
+        </div>
 
+        {/* Optional prev/next */}
+        <button
+          type="button"
+          onClick={() => goToSlide((activeSlide - 1 + SLIDE_COUNT) % SLIDE_COUNT)}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors"
+          aria-label="Previous slide"
+        >
+          <span className="text-2xl font-light">{isArabic ? '›' : '‹'}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => goToSlide(activeSlide + 1)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors"
+          aria-label="Next slide"
+        >
+          <span className="text-2xl font-light">{isArabic ? '‹' : '›'}</span>
+        </button>
+      </section>
       {/* Statistics Section */}
       <Section className="bg-red-50">
         <Container>
@@ -132,6 +229,27 @@ const Home = () => {
           </Grid>
         </Container>
       </Section>
+
+      {/* Welcome Section */}
+      <Section>
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <SectionTitle title={t('home.about_section_title')} centered={false} />
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                {t('home.about_section_text')}
+              </p>
+              <Link to="/about" className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                {t('common.learn_more')} <ArrowRight size={20} />
+              </Link>
+            </div>
+            <div className="w-full h-96 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg"></div>
+          </div>
+        </Container>
+      </Section>
+
+      
+     
 
       {/* Services Section */}
       <Section>
